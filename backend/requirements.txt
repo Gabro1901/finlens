@@ -1,0 +1,17 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+pydantic
+edgartools
+yfinance
+fredapi
+wbgapi
+feedparser
+requests
+markdown
+jinja2
+playwright
+openai
+httpx
+sse-starlette
+pydantic-settings
