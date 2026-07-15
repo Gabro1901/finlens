@@ -21,19 +21,18 @@
 FinLens is completely **open source** and built to democratize access to institutional-level financial analysis. It intentionally relies **exclusively on free, public data sources** so anyone can run it without paying for expensive enterprise financial APIs (like Bloomberg or Capital IQ). 
 
 Data is sourced dynamically from:
-- **SEC EDGAR API**: Public corporate filings (10-K, 10-Q, 8-K) and insider trading data.
+- **SEC EDGAR API**: Corporate filings (10-K, 10-Q, 8-K) and insider trading records.
 - **Yahoo Finance**: Live market data, historical prices, and valuation multiples.
 - **FRED (Federal Reserve Economic Data)**: Macroeconomic trends and interest rates.
 - **Public News Feeds & Congressional Disclosures**: Market sentiment and political trades.
 
 ## Features
-
-- **AI-Powered Analysis**: Generates incredibly detailed financial reports using `deepseek-v4-flash` or OpenAI models.
-- **Intelligent Peer Detection**: Bypasses flawed "retail correlation" algorithms by using a dedicated AI pass to identify true business competitors for highly accurate Comparable Company Analysis (Comps).
-- **Multi-Source Data Aggregation**: Instantly pulls and correlates data from SEC, Yahoo Finance, and FRED.
-- **Flawless Mobile Experience**: Features a dedicated, app-like mobile UI with bottom navigation, optimized specifically for iOS Safari and Desktop environments.
-- **Export Capabilities**: Export the final generated reports to beautifully formatted PDF or Markdown files.
-- **Interactive AI Chat**: Ask follow-up questions directly about the analyzed company and generated report.
+- **AI Analysis**: Writes reports using `deepseek-v4-pro` or OpenAI models.
+- **Peer Detection**: Uses a separate AI prompt to find direct business competitors for Comparable Company Analysis (Comps), bypassing standard retail algorithms.
+- **Data Aggregation**: Pulls and cross-references data from the SEC, Yahoo Finance, and FRED.
+- **Mobile UI**: Has a mobile interface with bottom navigation, built for iOS Safari and desktop.
+- **Exports**: Saves final reports as PDF or Markdown files.
+- **Interactive Chat**: Lets you ask follow-up questions about the company and the report.
 
 ## Tech Stack
 
