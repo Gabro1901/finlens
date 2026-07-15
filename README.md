@@ -15,10 +15,10 @@
 ---
 
 ## Overview
-**FinLens** is a modern, full-stack AI financial platform designed to automate the generation of institutional-grade equity research reports. By aggregating data across multiple financial dimensions and piping it into advanced LLMs (like DeepSeek and OpenAI), FinLens produces comprehensive, unbiased financial reports in seconds.
+**FinLens** is a modern, full-stack AI financial platform designed to automate the generation of institutional-grade equity research reports. By aggregating data across multiple financial dimensions and piping it into AI, FinLens produces comprehensive, unbiased financial reports in seconds.
 
 ## Open Source & Data Sources
-FinLens is completely **open source** and built to democratize access to institutional-level financial analysis. It intentionally relies **exclusively on free, public data sources** so anyone can run it without paying for expensive enterprise financial APIs (like Bloomberg or Capital IQ). 
+FinLens is completely **open source** and built to democratize access to institutional-level financial analysis. It intentionally relies **exclusively on free, public data sources** so anyone can run it without paying for expensive enterprise financial APIs. 
 
 Data is sourced dynamically from:
 - **SEC EDGAR API**: Corporate filings (10-K, 10-Q, 8-K) and insider trading records.
@@ -28,9 +28,9 @@ Data is sourced dynamically from:
 
 ## Features
 - **AI Analysis**: Writes reports using `deepseek-v4-pro` or OpenAI models.
-- **Peer Detection**: Uses a separate AI prompt to find direct business competitors for Comparable Company Analysis (Comps), bypassing standard retail algorithms.
+- **Peer Detection**: Uses a separate AI prompt to find direct business competitors for Comparable Company Analysis.
 - **Data Aggregation**: Pulls and cross-references data from the SEC, Yahoo Finance, and FRED.
-- **Mobile UI**: Has a mobile interface with bottom navigation, built for iOS Safari and desktop.
+- **Mobile UI**: Has a mobile interface with bottom navigation.
 - **Exports**: Saves final reports as PDF or Markdown files.
 - **Interactive Chat**: Lets you ask follow-up questions about the company and the report.
 
