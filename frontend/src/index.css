@@ -42,9 +42,18 @@
     --text-primary: #fafafa;
     --text-secondary: #a1a1aa;
     --text-tertiary: #71717a;
-    --sidebar-width: 60px;
-    --commandbar-height: 56px;
+    --sidebar-width: 0px; /* Mobile first */
+    --bottom-nav-height: 72px;
+    --commandbar-height: 64px;
     --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Mono', monospace;
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --sidebar-width: 72px;
+      --bottom-nav-height: 0px;
+      --commandbar-height: 64px;
+    }
   }
 
   * {
@@ -60,11 +69,11 @@
     -moz-osx-font-smoothing: grayscale;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
     overflow: hidden;
-    height: 100vh;
+    height: 100dvh;
   }
 
   #root {
-    height: 100vh;
+    height: 100dvh;
     overflow: hidden;
   }
 }
@@ -88,6 +97,18 @@
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border: 1px solid var(--border-subtle);
+  }
+
+  /* ── Liquid Glass Design (Mobile Skill) ── */
+  .glass-liquid {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    border-right: 1px solid rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   /* ── Sidebar ── */

@@ -28,7 +28,7 @@ export default function CommandBar({
       const fetchSuggestions = async () => {
         setIsSearching(true);
         try {
-          const res = await fetch(`http://${window.location.hostname}:8000/api/search/?q=${encodeURIComponent(debouncedTicker)}`);
+          const res = await fetch(`/api/search/?q=${encodeURIComponent(debouncedTicker)}`);
           if (res.ok) {
             const data = await res.json();
             setSuggestions(data.results || []);
@@ -76,7 +76,7 @@ export default function CommandBar({
   const handleExportPdf = async () => {
     setIsExporting(true);
     try {
-      const response = await fetch(`http://${window.location.hostname}:8000/api/export/pdf`, {
+      const response = await fetch(`/api/export/pdf`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ markdown_content: reportMarkdown, ticker: activeTicker || 'Report' })
@@ -104,7 +104,7 @@ export default function CommandBar({
   const handleExportMarkdown = async () => {
     setIsExporting(true);
     try {
-      const response = await fetch(`http://${window.location.hostname}:8000/api/export/markdown`, {
+      const response = await fetch(`/api/export/markdown`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ markdown_content: reportMarkdown, ticker: activeTicker || 'Report' })
@@ -130,11 +130,11 @@ export default function CommandBar({
 
   return (
     <div 
-      className="commandbar-bg absolute top-0 left-0 right-0 z-40 flex items-center gap-4 px-5"
-      style={{ height: 'var(--commandbar-height)' }}
+      className="commandbar-bg w-full z-40 flex items-center gap-4 px-4 border-b border-zinc-800/60"
+      style={{ minHeight: 'var(--commandbar-height)' }}
     >
       {/* Ticker search */}
-      <form onSubmit={handleSubmit} className="flex items-center gap-2.5 flex-1 max-w-lg">
+      <form onSubmit={handleSubmit} className="flex items-center gap-2.5 w-[400px]">
         <div className="relative flex-1 glow-focus rounded-lg transition-all duration-200">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             {isAnalyzing ? (
@@ -217,9 +217,10 @@ export default function CommandBar({
       {/* Spacer */}
       <div className="flex-1" />
 
-      {/* View toggle — only show when we have content */}
-      {reportMarkdown && (
-        <div className="flex bg-zinc-900/60 rounded-lg p-0.5 border border-zinc-800">
+      <div className="flex items-center justify-between w-auto gap-4">
+        {/* View toggle — only show when we have content */}
+        {reportMarkdown && (
+          <div className="flex bg-zinc-900/60 rounded-lg p-0.5 border border-zinc-800">
           <button
             onClick={() => onViewChange('report')}
             className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 ${
@@ -247,9 +248,9 @@ export default function CommandBar({
         </div>
       )}
 
-      {/* Export actions — only show when we have a report */}
-      {reportMarkdown && (
-        <div className="flex items-center gap-1.5">
+      {/* Export actions — only show when we have a report, hidden on mobile for space */}
+      {reportMarkdown && activeView !== 'history' && (
+        <div className="flex items-center gap-2 pr-2">
           <button
             onClick={handleExportMarkdown}
             disabled={isExporting}
@@ -274,6 +275,7 @@ export default function CommandBar({
           </button>
         </div>
       )}
+      </div>
     </div>
   );
 }

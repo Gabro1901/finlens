@@ -197,7 +197,7 @@ export default function ReportViewer({ markdown, ticker }) {
     <div className="w-full">
       {/* Report header */}
       {ticker && (
-        <div className="px-8 lg:px-16 xl:px-24 pt-8 pb-4">
+        <div className="px-5 md:px-8 lg:px-16 xl:px-24 pt-6 pb-2 max-w-5xl mx-auto">
           <div className="flex items-center gap-3 mb-2">
             <span className="px-2.5 py-1 rounded-md bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-data font-bold tracking-wider">
               {ticker}
@@ -208,7 +208,7 @@ export default function ReportViewer({ markdown, ticker }) {
       )}
 
       {/* Report body — full-bleed with generous padding */}
-      <div className="px-8 lg:px-16 xl:px-24 pb-16 w-full">
+      <div className="px-5 md:px-8 lg:px-16 xl:px-24 pb-6 w-full max-w-5xl mx-auto">
         <ReactMarkdown remarkPlugins={[remarkGfm]} components={renderers}>
           {fixMalformedTables(markdown)}
         </ReactMarkdown>

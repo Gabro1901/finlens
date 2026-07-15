@@ -11,7 +11,7 @@ export default function ExportBar({ markdown, ticker }) {
   const handleExport = async (format) => {
     setIsExporting(true);
     try {
-      const response = await fetch(`http://${window.location.hostname}:8000/api/export/${format}`, {
+      const response = await fetch(`/api/export/${format}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ markdown_content: markdown, ticker: ticker || 'Report' })

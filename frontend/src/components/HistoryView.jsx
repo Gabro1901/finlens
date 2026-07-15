@@ -6,7 +6,7 @@ export default function HistoryView({ historyList, onSelectHistory, onDeleteHist
   const [deleteTargetId, setDeleteTargetId] = useState(null);
 
   return (
-    <div className="h-full flex flex-col max-w-5xl mx-auto w-full px-8 lg:px-16 xl:px-24 pt-8 pb-16">
+    <div className="h-full flex flex-col max-w-5xl mx-auto w-full px-5 md:px-8 lg:px-16 xl:px-24 pt-6 pb-6">
       {/* Header */}
       <div className="flex items-center gap-3 mb-8">
         <div className="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center border border-rose-500/20">
@@ -61,7 +61,7 @@ export default function HistoryView({ historyList, onSelectHistory, onDeleteHist
                     e.stopPropagation();
                     setDeleteTargetId(item.id);
                   }}
-                  className="w-10 h-10 rounded-xl flex items-center justify-center text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors opacity-0 group-hover:opacity-100 shrink-0 ml-2"
+                  className="w-10 h-10 rounded-xl flex items-center justify-center text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors shrink-0 ml-2"
                   title="Delete Report"
                 >
                   <Trash2 className="w-5 h-5" />

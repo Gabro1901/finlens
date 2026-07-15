@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { motion } from 'framer-motion';
 
-export default function ChatPanel({ isOpen, onClose, ticker, reportMarkdown, rawContextData, apiKey }) {
+export default function ChatPanel({ isOpen, onClose, ticker, reportMarkdown, rawContextData, apiKey, isMobile }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
@@ -39,7 +39,7 @@ export default function ChatPanel({ isOpen, onClose, ticker, reportMarkdown, raw
     setIsSending(true);
 
     try {
-      const response = await fetch(`http://${window.location.hostname}:8000/api/chat/`, {
+      const response = await fetch(`/api/chat/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -111,11 +111,14 @@ export default function ChatPanel({ isOpen, onClose, ticker, reportMarkdown, raw
 
     return (
       <motion.div
-        initial={{ width: 0, opacity: 0 }}
-        animate={{ width: 420, opacity: 1 }}
-        exit={{ width: 0, opacity: 0 }}
-        transition={{ type: 'spring', damping: 28, stiffness: 300 }}
-        className="h-full bg-zinc-950 flex flex-col border-l border-zinc-800/60 z-20 flex-shrink-0"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 40 }}
+        transition={{ type: 'spring', damping: 25, stiffness: 350 }}
+        className={isMobile 
+          ? "w-full h-full flex flex-col bg-transparent overflow-hidden" 
+          : "fixed inset-x-0 bottom-[var(--bottom-nav-height)] top-[var(--commandbar-height)] z-50 md:static md:w-[420px] md:h-full md:flex-shrink-0 md:z-20 bg-zinc-950 flex flex-col md:border-l border-t md:border-t-0 border-zinc-800/60 shadow-2xl md:shadow-none rounded-t-[2.5rem] md:rounded-none overflow-hidden"
+        }
       >
             {/* Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-800/60">
@@ -141,12 +144,14 @@ export default function ChatPanel({ isOpen, onClose, ticker, reportMarkdown, raw
                   <option value="both">Both</option>
                 </select>
 
-                <button
-                  onClick={onClose}
-                  className="w-8 h-8 rounded-lg flex items-center justify-center text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
-                >
-                  <X className="w-4 h-4" />
-                </button>
+                {!isMobile && (
+                  <button
+                    onClick={onClose}
+                    className="w-8 h-8 rounded-lg flex items-center justify-center text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             </div>
 
@@ -209,7 +214,7 @@ export default function ChatPanel({ isOpen, onClose, ticker, reportMarkdown, raw
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask a follow-up question..."
-                className="flex-1 bg-zinc-900/60 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-rose-500/50 transition-colors glow-focus"
+                className="flex-1 bg-zinc-900/60 border border-zinc-800 rounded-xl px-4 py-2.5 text-[16px] text-white placeholder-zinc-600 focus:outline-none focus:border-rose-500/50 transition-colors glow-focus"
                 disabled={isSending || !reportMarkdown}
                 id="chat-input"
               />

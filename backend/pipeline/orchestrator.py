@@ -95,7 +95,7 @@ async def run_pipeline(ticker: str, llm_provider: str, llm_api_key: str, fred_ap
         macro = MacroCollector()
         news = NewsCollector()
         reg = RegulatoryCollector()
-        peers = PeersCollector()
+        peers = PeersCollector(llm_provider, llm_api_key)
     except Exception as e:
         yield {"event": "status", "data": safe_json_dumps({"stage": "error", "message": f"Failed to initialize collectors: {e}"})}
         yield {"event": "error", "data": safe_json_dumps({"message": f"Initialization error: {e}"})}
@@ -124,7 +124,7 @@ async def run_pipeline(ticker: str, llm_provider: str, llm_api_key: str, fred_ap
         asyncio.create_task(macro.collect(ticker)),
         asyncio.create_task(news.collect(ticker, company_name)),
         asyncio.create_task(reg.collect(ticker, company_name, sector)),
-        asyncio.create_task(peers.collect(ticker))
+        asyncio.create_task(peers.collect(ticker, company_name))
     ]
     
     results = await asyncio.gather(*tasks, return_exceptions=True)
