@@ -1,7 +1,8 @@
+import { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import FinChart from './FinChart';
-
+import { generateIdFromChildren, useHeadings } from '../utils/toc';
 // ── Premium custom renderers ────────────────────────────────────────────────
 
 const renderers = {
@@ -68,23 +69,26 @@ const renderers = {
 
   // Headings with accent indicators
   h1({ children }) {
+    const id = generateIdFromChildren(children);
     return (
-      <h1 className="text-2xl font-bold text-white mt-10 mb-5 pb-4 border-b border-zinc-800/60">
+      <h1 id={id} className="text-2xl font-bold text-white mt-10 mb-5 pb-4 border-b border-zinc-800/60 scroll-mt-24">
         {children}
       </h1>
     );
   },
   h2({ children }) {
+    const id = generateIdFromChildren(children);
     return (
-      <h2 className="text-lg font-semibold text-white mt-10 mb-3 flex items-center gap-3">
+      <h2 id={id} className="text-lg font-semibold text-white mt-10 mb-3 flex items-center gap-3 scroll-mt-24">
         <span className="inline-block w-1 h-5 rounded-full bg-rose-500 flex-shrink-0 shadow-[0_0_8px_rgba(244,63,94,0.4)]" />
         {children}
       </h2>
     );
   },
   h3({ children }) {
+    const id = generateIdFromChildren(children);
     return (
-      <h3 className="text-sm font-semibold text-rose-300 mt-6 mb-2 uppercase tracking-wide">
+      <h3 id={id} className="text-sm font-semibold text-rose-300 mt-6 mb-2 uppercase tracking-wide scroll-mt-24">
         {children}
       </h3>
     );
@@ -190,14 +194,53 @@ const fixMalformedTables = (markdown) => {
   return lines.join('\n');
 };
 
+const fixMissingHeadings = (markdown) => {
+  if (!markdown) return markdown;
+  // Fallback to convert "1. SECTOR DYNAMICS..." to "## 1. SECTOR DYNAMICS..."
+  return markdown.replace(/^([0-9]\.\s+[A-Z][A-Z0-9\s&:,\\'\-]+(?:\(MUST BE PRESENTED FIRST\))?)\s*$/gm, '## $1');
+};
+
 export default function ReportViewer({ markdown, ticker }) {
+  const fixedMarkdown = fixMissingHeadings(markdown);
+  const headings = useHeadings(fixedMarkdown).filter(h => /^\d+\./.test(h.text));
+  const [activeId, setActiveId] = useState('');
+
+  // Scroll spy logic
+  useEffect(() => {
+    if (!headings.length) return;
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveId(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: '-100px 0px -60% 0px' }
+    );
+
+    // Delay observing to allow ReactMarkdown to render the DOM elements
+    const timeoutId = setTimeout(() => {
+      headings.forEach((h) => {
+        const el = document.getElementById(h.id);
+        if (el) observer.observe(el);
+      });
+    }, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+      observer.disconnect();
+    };
+  }, [headings, markdown]);
+
   if (!markdown) return null;
 
   return (
     <div className="w-full">
       {/* Report header */}
       {ticker && (
-        <div className="px-5 md:px-8 lg:px-16 xl:px-24 pt-6 pb-2 max-w-5xl mx-auto">
+        <div className="px-5 md:px-8 lg:px-16 xl:px-24 pt-6 pb-2 max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-2">
             <span className="px-2.5 py-1 rounded-md bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-data font-bold tracking-wider">
               {ticker}
@@ -207,11 +250,48 @@ export default function ReportViewer({ markdown, ticker }) {
         </div>
       )}
 
-      {/* Report body — full-bleed with generous padding */}
-      <div className="px-5 md:px-8 lg:px-16 xl:px-24 pb-6 w-full max-w-5xl mx-auto">
-        <ReactMarkdown remarkPlugins={[remarkGfm]} components={renderers}>
-          {fixMalformedTables(markdown)}
-        </ReactMarkdown>
+      {/* Report body and TOC */}
+      <div className="flex w-full max-w-7xl mx-auto px-5 md:px-8 lg:px-16 xl:px-24 pb-6">
+        <div className="flex-1 max-w-[800px] min-w-0">
+          <ReactMarkdown remarkPlugins={[remarkGfm]} components={renderers}>
+            {fixMalformedTables(fixedMarkdown)}
+          </ReactMarkdown>
+        </div>
+
+        {/* TOC Sidebar */}
+        {headings.length > 0 && (
+          <div className="hidden md:block w-48 lg:w-64 flex-shrink-0 ml-auto pl-4 lg:pl-8">
+            <div className="sticky top-8 pt-4 pb-8 max-h-[calc(100vh-4rem)] overflow-y-auto no-scrollbar">
+              <h4 className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest mb-5">Table of Contents</h4>
+              <nav className="space-y-3 flex flex-col relative before:absolute before:inset-y-0 before:left-0 before:w-px before:bg-zinc-800/60">
+                {headings.map((heading, i) => (
+                  <a
+                    key={`${heading.id}-${i}`}
+                    href={`#${heading.id}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const target = document.getElementById(heading.id);
+                      if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                        setActiveId(heading.id);
+                      }
+                    }}
+                    className={`
+                      text-[13px] leading-snug transition-all pl-4 relative border-l-2 py-0.5
+                      ${heading.level === 1 ? 'font-semibold' : heading.level === 2 ? 'ml-0' : 'ml-3'}
+                      ${activeId === heading.id 
+                        ? 'text-rose-400 border-rose-500' 
+                        : 'text-zinc-400 hover:text-zinc-200 border-transparent hover:border-zinc-700'
+                      }
+                    `}
+                  >
+                    {heading.text}
+                  </a>
+                ))}
+              </nav>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

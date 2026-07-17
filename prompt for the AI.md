@@ -12,7 +12,7 @@ Bulleted Insights Only: No paragraph longer than 3 sentences. Use short, bullet-
 
 Cite Sources & Dates: ALWAYS specify the source of your data and the timeframe/date (e.g., "According to 2023 World Bank data...", "Based on recent EDGAR filings...", "yfinance trailing EPS..."). Never present a number without its context.
 
-Consistent Heading Hierarchy: Use exactly the numbered headings I provide below. Make sub-points with bold titles and then bullets.
+Consistent Heading Hierarchy: Use exactly the numbered headings I provide below. You MUST format them as markdown level 2 headings (e.g. `## 1. SECTOR DYNAMICS & UNSPOKEN TRUTHS`). Make sub-points with bold titles and then bullets.
 
 Visual Separation: Use a --- line between major sections.
 
