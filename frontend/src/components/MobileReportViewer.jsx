@@ -39,7 +39,7 @@ const mobileRenderers = {
     }
     
     return (
-      <code className="bg-zinc-800 text-rose-300 px-1.5 py-0.5 rounded-md text-[13px] font-data" {...props}>
+      <code className="bg-theme-bg text-theme-accent px-1.5 py-0.5 rounded-md text-[13px] font-data border border-theme-accent/20" {...props}>
         {children}
       </code>
     );
@@ -56,7 +56,7 @@ const mobileRenderers = {
     );
   },
   thead({ children }) {
-    return <thead className="bg-zinc-800/50 rounded-xl">{children}</thead>;
+    return <thead className="bg-theme-bg/80 rounded-xl">{children}</thead>;
   },
   tbody({ children }) {
     return <tbody className="divide-y divide-zinc-800/40">{children}</tbody>;
@@ -66,7 +66,7 @@ const mobileRenderers = {
   },
   th({ children }) {
     return (
-      <th className="px-5 py-4 text-left text-[13px] font-bold text-zinc-400 uppercase tracking-wider whitespace-nowrap font-data first:rounded-tl-xl last:rounded-tr-xl">
+      <th className="px-5 py-4 text-left text-[13px] font-bold text-theme-accent uppercase tracking-wider whitespace-nowrap font-data first:rounded-tl-xl last:rounded-tr-xl">
         {children}
       </th>
     );
@@ -81,7 +81,7 @@ const mobileRenderers = {
   h1({ children }) {
     const id = generateIdFromChildren(children);
     return (
-      <h1 id={id} className="text-[28px] font-bold text-white mt-12 mb-6 pb-6 border-b border-zinc-800/80 leading-tight scroll-mt-24">
+      <h1 id={id} className="text-[28px] font-bold text-theme-accent mt-12 mb-6 pb-6 border-b border-zinc-800/80 leading-tight scroll-mt-24">
         {children}
       </h1>
     );
@@ -90,8 +90,8 @@ const mobileRenderers = {
   h2({ children }) {
     const id = generateIdFromChildren(children);
     return (
-      <h2 id={id} className="text-[22px] font-bold text-white mt-12 mb-5 flex items-center gap-3 scroll-mt-24">
-        <span className="inline-block w-1.5 h-6 rounded-full bg-rose-500 flex-shrink-0 shadow-[0_0_12px_rgba(244,63,94,0.6)]" />
+      <h2 id={id} className="text-[22px] font-bold text-theme-accent mt-12 mb-5 flex items-center gap-3 scroll-mt-24">
+        <span className="inline-block w-1.5 h-6 rounded-full bg-theme-accent flex-shrink-0 shadow-[0_0_12px_rgba(248,231,201,0.6)]" />
         {children}
       </h2>
     );
@@ -99,7 +99,7 @@ const mobileRenderers = {
   h3({ children }) {
     const id = generateIdFromChildren(children);
     return (
-      <h3 id={id} className="text-base font-bold text-rose-400 mt-8 mb-3 uppercase tracking-widest scroll-mt-24">
+      <h3 id={id} className="text-base font-bold text-theme-accent mt-8 mb-3 uppercase tracking-widest scroll-mt-24">
         {children}
       </h3>
     );
@@ -120,7 +120,7 @@ const mobileRenderers = {
   li({ children }) {
     return (
       <li className="text-zinc-300 text-[16px] leading-relaxed flex items-start gap-3">
-        <span className="mt-[10px] w-2 h-2 rounded-full bg-rose-500/80 flex-shrink-0 shadow-[0_0_8px_rgba(244,63,94,0.4)]" />
+        <span className="mt-[10px] w-2 h-2 rounded-full bg-theme-accent flex-shrink-0 shadow-[0_0_8px_rgba(248,231,201,0.4)]" />
         <span className="flex-1">{children}</span>
       </li>
     );
@@ -133,8 +133,8 @@ const mobileRenderers = {
   // Blockquotes -> TL;DR / Executive Summary Cards
   blockquote({ children }) {
     return (
-      <div className="my-10 border border-rose-500/30 bg-gradient-to-br from-rose-500/10 to-transparent rounded-[2rem] p-6 shadow-lg shadow-rose-900/10">
-        <div className="text-white [&_p]:text-white [&_p]:!mb-0 [&_strong]:text-rose-200 text-[16px] font-medium leading-relaxed">
+      <div className="my-10 border border-theme-accent/40 bg-gradient-to-br from-theme-bg/80 to-transparent rounded-[2rem] p-6 shadow-lg shadow-theme-accent/5">
+        <div className="text-theme-accent [&_p]:text-theme-accent [&_p]:!mb-0 [&_strong]:text-theme-accent text-[16px] font-medium leading-relaxed">
           {children}
         </div>
       </div>
@@ -216,7 +216,7 @@ export default function MobileReportViewer({ markdown, ticker, onClear }) {
         >
           <ArrowLeft className="w-5 h-5" />
         </button>
-        <div className="px-4 py-1.5 rounded-full bg-rose-500/15 border border-rose-500/30 text-rose-400 text-[13px] font-data font-bold tracking-wider shadow-[0_0_15px_rgba(244,63,94,0.15)] truncate max-w-[200px]">
+        <div className="px-4 py-1.5 rounded-full bg-theme-accent/15 border border-theme-accent/30 text-theme-accent text-[13px] font-data font-bold tracking-wider shadow-[0_0_15px_rgba(248,231,201,0.15)] truncate max-w-[200px]">
           {ticker}
         </div>
         {headings.length > 0 ? (
@@ -257,7 +257,7 @@ export default function MobileReportViewer({ markdown, ticker, onClear }) {
               className="fixed bottom-0 left-0 right-0 max-h-[85vh] bg-zinc-900 border-t border-zinc-800/80 rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.5)] z-[60] flex flex-col"
             >
               <div className="flex-shrink-0 flex items-center justify-between px-6 py-5 border-b border-zinc-800/50">
-                <h3 className="text-lg font-bold text-white">Table of Contents</h3>
+                <h3 className="text-lg font-bold text-theme-accent">Table of Contents</h3>
                 <button 
                   onClick={() => setIsTocOpen(false)}
                   className="w-8 h-8 flex items-center justify-center rounded-full bg-zinc-800 text-zinc-400 hover:text-white active:scale-95 transition-colors"
@@ -284,8 +284,8 @@ export default function MobileReportViewer({ markdown, ticker, onClear }) {
                         text-left text-[15px] leading-relaxed transition-all pl-4 relative border-l-2 py-1
                         ${heading.level === 1 ? 'font-semibold mt-2' : heading.level === 2 ? 'ml-0' : 'ml-4'}
                         ${activeId === heading.id 
-                          ? 'text-rose-400 border-rose-500' 
-                          : 'text-zinc-400 hover:text-zinc-200 border-transparent'
+                          ? 'text-theme-accent border-theme-accent font-bold' 
+                          : 'text-zinc-400 hover:text-theme-accent border-transparent'
                         }
                       `}
                     >

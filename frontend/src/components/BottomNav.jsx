@@ -29,7 +29,7 @@ export default function BottomNav({
               className={`
                 relative flex items-center justify-center w-12 h-12 rounded-2xl transition-all duration-300
                 ${isActive 
-                  ? 'text-rose-400 bg-rose-500/15 shadow-[0_0_20px_rgba(244,63,94,0.15)]' 
+                  ? 'text-theme-accent bg-theme-accent/15 shadow-[0_0_20px_rgba(248,231,201,0.2)] border border-theme-accent/30' 
                   : isDisabled 
                     ? 'text-zinc-700 cursor-not-allowed' 
                     : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
@@ -41,8 +41,8 @@ export default function BottomNav({
             {isActive && (
               <motion.div
                 layoutId="mobile-nav-indicator"
-                className="absolute -bottom-2 w-1.5 h-1.5 rounded-full bg-rose-400"
-                style={{ boxShadow: '0 0 10px rgba(244, 63, 94, 0.8)' }}
+                className="absolute -bottom-2 w-1.5 h-1.5 rounded-full bg-theme-accent"
+                style={{ boxShadow: '0 0 10px rgba(248, 231, 201, 0.8)' }}
                 transition={{ type: 'spring', stiffness: 400, damping: 25 }}
               />
             )}

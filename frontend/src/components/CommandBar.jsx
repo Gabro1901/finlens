@@ -138,9 +138,9 @@ export default function CommandBar({
         <div className="relative flex-1 glow-focus rounded-lg transition-all duration-200">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             {isAnalyzing ? (
-              <Loader2 className="h-4 w-4 text-rose-400 animate-spin" />
+              <Loader2 className="h-4 w-4 text-theme-accent animate-spin" />
             ) : (
-              <Search className="h-4 w-4 text-zinc-500" />
+              <Search className="h-4 w-4 text-zinc-400" />
             )}
           </div>
           <input
@@ -154,7 +154,7 @@ export default function CommandBar({
               if (suggestions.length > 0) setShowSuggestions(true);
             }}
             placeholder="Search company or ticker..."
-            className="block w-full pl-9 pr-3 py-2 bg-zinc-900/60 border border-zinc-800 rounded-lg text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-rose-500/50 focus:bg-zinc-900 transition-all font-semibold"
+            className="block w-full pl-9 pr-3 py-2 bg-zinc-900/60 border border-zinc-800 rounded-lg text-sm text-theme-accent placeholder-zinc-500 focus:outline-none focus:border-theme-accent/50 focus:bg-zinc-900 transition-all font-semibold"
             disabled={isAnalyzing}
             id="ticker-search-input"
             autoComplete="off"
@@ -179,10 +179,10 @@ export default function CommandBar({
                     className="w-full text-left px-4 py-2.5 hover:bg-zinc-800/80 transition-colors flex items-center justify-between group border-b border-zinc-800/50 last:border-0"
                   >
                     <div className="flex flex-col">
-                      <span className="text-sm font-bold text-white group-hover:text-rose-400 transition-colors">{s.symbol}</span>
-                      <span className="text-xs text-zinc-500 truncate max-w-[200px]">{s.name}</span>
+                      <span className="text-sm font-bold text-theme-accent group-hover:text-theme-accent transition-colors">{s.symbol}</span>
+                      <span className="text-xs text-zinc-400 truncate max-w-[200px]">{s.name}</span>
                     </div>
-                    <span className="text-[10px] uppercase font-semibold text-zinc-600 bg-zinc-950 px-2 py-1 rounded">{s.type}</span>
+                    <span className="text-[10px] uppercase font-semibold text-zinc-400 bg-zinc-950 px-2 py-1 rounded border border-zinc-800">{s.type}</span>
                   </button>
                 ))}
               </motion.div>
@@ -194,10 +194,10 @@ export default function CommandBar({
           whileTap={{ scale: 0.98 }}
           type="submit"
           disabled={isAnalyzing || !ticker.trim()}
-          className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg text-black bg-white hover:bg-zinc-200 disabled:bg-zinc-800 disabled:text-zinc-500 disabled:opacity-100 disabled:cursor-not-allowed transition-all duration-200 whitespace-nowrap"
+          className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold rounded-lg text-theme-bg bg-theme-accent hover:bg-[#e5d2b0] disabled:bg-zinc-800 disabled:text-zinc-500 disabled:opacity-100 disabled:cursor-not-allowed transition-all duration-200 whitespace-nowrap shadow-md shadow-theme-accent/10"
           id="analyze-button"
         >
-          <Zap className="w-3.5 h-3.5" />
+          <Zap className="w-3.5 h-3.5 text-theme-bg" />
           {isAnalyzing ? 'Analyzing...' : 'Analyze'}
         </motion.button>
       </form>
@@ -207,10 +207,10 @@ export default function CommandBar({
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/20"
+          className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-theme-accent/15 border border-theme-accent/30"
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse" />
-          <span className="text-xs text-rose-300 font-medium capitalize">{currentStage}</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-theme-accent animate-pulse" />
+          <span className="text-xs text-theme-accent font-medium capitalize">{currentStage}</span>
         </motion.div>
       )}
 
@@ -225,8 +225,8 @@ export default function CommandBar({
             onClick={() => onViewChange('report')}
             className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 ${
               activeView === 'report' 
-                ? 'bg-rose-600/80 text-white shadow-sm' 
-                : 'text-zinc-500 hover:text-zinc-300'
+                ? 'bg-theme-accent text-theme-bg shadow-sm font-bold' 
+                : 'text-zinc-400 hover:text-theme-accent'
             }`}
             id="view-toggle-report"
           >
@@ -237,8 +237,8 @@ export default function CommandBar({
               onClick={() => onViewChange('raw')}
               className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 ${
                 activeView === 'raw' 
-                  ? 'bg-rose-600/80 text-white shadow-sm' 
-                  : 'text-zinc-500 hover:text-zinc-300'
+                  ? 'bg-theme-accent text-theme-bg shadow-sm font-bold' 
+                  : 'text-zinc-400 hover:text-theme-accent'
               }`}
               id="view-toggle-raw"
             >
@@ -254,7 +254,7 @@ export default function CommandBar({
           <button
             onClick={handleExportMarkdown}
             disabled={isExporting}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-zinc-400 hover:text-zinc-200 bg-zinc-900/60 hover:bg-zinc-800 border border-zinc-800 rounded-lg transition-all duration-200"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-theme-accent hover:bg-zinc-800 bg-zinc-900/60 border border-zinc-800 rounded-lg transition-all duration-200"
             id="export-md-button"
           >
             <FileDown className="w-3.5 h-3.5" />
@@ -263,11 +263,11 @@ export default function CommandBar({
           <button
             onClick={handleExportPdf}
             disabled={isExporting}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-white bg-rose-600/80 hover:bg-rose-500 disabled:opacity-60 border border-rose-500/50 rounded-lg shadow-sm transition-all duration-200"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold text-theme-bg bg-theme-accent hover:bg-[#e5d2b0] disabled:opacity-60 border border-theme-accent/50 rounded-lg shadow-sm transition-all duration-200"
             id="export-pdf-button"
           >
             {isExporting ? (
-              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-theme-bg" />
             ) : (
               <Download className="w-3.5 h-3.5" />
             )}

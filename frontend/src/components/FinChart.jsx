@@ -14,23 +14,23 @@ import {
 } from 'recharts';
 
 const COLORS = {
-  bar1: '#f43f5e',
+  bar1: 'var(--theme-accent)',
   bar2: '#34d399',
   bar3: '#fbbf24',
-  line1: '#fb7185',
+  line1: 'var(--theme-accent-muted)',
   line2: '#fb923c',
 };
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload || payload.length === 0) return null;
   return (
-    <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-3 shadow-2xl text-sm">
-      <p className="font-semibold text-zinc-200 mb-2 font-data">{label}</p>
+    <div className="bg-theme-bg border border-theme-accent/30 rounded-xl p-3 shadow-2xl text-sm">
+      <p className="font-semibold text-theme-accent mb-2 font-data">{label}</p>
       {payload.map((entry, i) => (
         <div key={i} className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
-          <span className="text-zinc-500 text-xs">{entry.name}:</span>
-          <span className="text-white font-medium font-data text-xs">{typeof entry.value === 'number' ? entry.value.toLocaleString() : entry.value}</span>
+          <span className="text-zinc-300 text-xs">{entry.name}:</span>
+          <span className="text-theme-accent font-medium font-data text-xs">{typeof entry.value === 'number' ? entry.value.toLocaleString() : entry.value}</span>
         </div>
       ))}
     </div>
@@ -57,7 +57,7 @@ export default function FinChart({ spec }) {
       margin: { top: 5, right: 30, left: 20, bottom: 5 },
     };
 
-    const THEME_COLORS = ['#f43f5e', '#fb7185', '#34d399', '#fbbf24', '#fb923c'];
+    const THEME_COLORS = ['var(--theme-accent)', '#34d399', '#fbbf24', '#60a5fa', 'var(--theme-accent-muted)'];
 
     const axes = (
       <>

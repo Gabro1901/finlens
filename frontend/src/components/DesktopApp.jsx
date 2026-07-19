@@ -35,8 +35,8 @@ export default function DesktopApp({
   return (
     <div className="h-[100dvh] w-screen flex overflow-hidden relative bg-zinc-950">
       {/* ── Ambient background glows ── */}
-      <div className="fixed top-[-20%] left-[10%] w-[600px] h-[600px] rounded-full bg-rose-600/[0.04] blur-[150px] pointer-events-none" />
-      <div className="fixed bottom-[-20%] right-[10%] w-[500px] h-[500px] rounded-full bg-red-600/[0.03] blur-[150px] pointer-events-none" />
+      <div className="fixed top-[-20%] left-[10%] w-[600px] h-[600px] rounded-full bg-theme-bg/40 blur-[150px] pointer-events-none" />
+      <div className="fixed bottom-[-20%] right-[10%] w-[500px] h-[500px] rounded-full bg-theme-accent/[0.08] blur-[150px] pointer-events-none" />
 
       {/* ── Sidebar ── */}
       <Sidebar
@@ -84,16 +84,16 @@ export default function DesktopApp({
             {!reportMarkdown && !isAnalyzing && currentStage !== 'error' && mainContentView !== 'history' && (
               <div className="flex-1 flex items-center justify-center h-full min-h-[400px]">
                 <div className="text-center space-y-6 animate-fade-in max-w-md px-6">
-                  <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-rose-500/10 to-red-500/10 border border-rose-500/20 flex items-center justify-center">
-                    <svg className="w-10 h-10 text-rose-400/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-theme-accent/20 to-theme-bg/40 border border-theme-accent/30 flex items-center justify-center shadow-lg shadow-theme-accent/5">
+                    <svg className="w-10 h-10 text-theme-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M12 2L2 7l10 5 10-5-10-5z" />
                       <path d="M2 17l10 5 10-5" />
                       <path d="M2 12l10 5 10-5" />
                     </svg>
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-zinc-200 mb-2">Financial Intelligence</h2>
-                    <p className="text-sm text-zinc-500 leading-relaxed">Enter a ticker symbol in the command bar above to generate a comprehensive AI-driven analysis report with accounting forensics, peer benchmarking, and forward-looking signals.</p>
+                    <h2 className="text-xl font-bold text-theme-accent mb-2">Financial Intelligence</h2>
+                    <p className="text-sm text-zinc-400 leading-relaxed">Enter a ticker symbol in the command bar above to generate a comprehensive AI-driven analysis report with accounting forensics, peer benchmarking, and forward-looking signals.</p>
                   </div>
                 </div>
               </div>
@@ -157,9 +157,9 @@ export default function DesktopApp({
       {reportMarkdown && !isChatOpen && (
         <button
           onClick={() => setIsChatOpen(!isChatOpen)}
-          className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-rose-600 hover:bg-rose-500 text-white shadow-xl shadow-rose-600/30 flex items-center justify-center transition-all duration-200 z-50 hover:scale-105 active:scale-95"
+          className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-theme-accent hover:bg-[#e5d2b0] text-theme-bg shadow-xl shadow-theme-accent/20 flex items-center justify-center transition-all duration-200 z-50 hover:scale-105 active:scale-95 border border-theme-accent/40"
         >
-          <MessageSquare className="w-6 h-6" />
+          <MessageSquare className="w-6 h-6 text-theme-bg" />
         </button>
       )}
     </div>

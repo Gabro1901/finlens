@@ -80,7 +80,13 @@ def build_context(bundled_data: dict) -> str:
         lines.append(f"- Price to Book: {info.get('priceToBook', 'N/A')}")
         lines.append(f"- Short Ratio: {info.get('shortRatio', 'N/A')}")
         lines.append(f"- Forward EPS: {info.get('forwardEps', 'N/A')}")
-        lines.append(f"- Trailing EPS: {info.get('trailingEps', 'N/A')}\n")
+        lines.append(f"- Trailing EPS: {info.get('trailingEps', 'N/A')}")
+        lines.append(f"- Target Mean Price: {info.get('targetMeanPrice', 'N/A')}")
+        lines.append(f"- Target High Price: {info.get('targetHighPrice', 'N/A')}")
+        lines.append(f"- Target Low Price: {info.get('targetLowPrice', 'N/A')}")
+        lines.append(f"- Average Analyst Rating: {info.get('averageAnalystRating', 'N/A')}")
+        lines.append(f"- Number of Analysts: {info.get('numberOfAnalystOpinions', 'N/A')}")
+        lines.append(f"- Recommendation Key: {info.get('recommendationKey', 'N/A')}\n")
         
     # 2. Financial Statements (Income, Balance, Cashflow)
     lines.append("## Financial Statements (Multi-Year Context)")
@@ -162,6 +168,18 @@ def build_context(bundled_data: dict) -> str:
         if recs:
             lines.append("### Analyst Recommendations")
             lines.append(json.dumps(recs, indent=2))
+            lines.append("\n")
+            
+        ud = market.get("upgrades_downgrades", [])
+        if ud:
+            lines.append("### Recent Analyst Ratings (Upgrades/Downgrades)")
+            lines.append("| Date | Firm | Action | To Grade | From Grade |")
+            lines.append("|---|---|---|---|---|")
+            for item in ud:
+                date_str = item.get("GradeDate", "")
+                if isinstance(date_str, str) and "T" in date_str:
+                    date_str = date_str.split("T")[0]
+                lines.append(f"| {date_str} | {item.get('Firm', '')} | {item.get('Action', '')} | {item.get('ToGrade', '')} | {item.get('FromGrade', '')} |")
             lines.append("\n")
 
     # 6. Macro & Geo Data

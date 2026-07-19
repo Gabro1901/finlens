@@ -27,7 +27,7 @@ const renderers = {
     }
     // Normal code blocks
     return (
-      <code className="bg-zinc-800/80 text-rose-300 px-1.5 py-0.5 rounded text-sm font-data" {...props}>
+      <code className="bg-theme-bg/80 text-theme-accent px-1.5 py-0.5 rounded text-sm font-data border border-theme-accent/20" {...props}>
         {children}
       </code>
     );
@@ -42,7 +42,7 @@ const renderers = {
     );
   },
   thead({ children }) {
-    return <thead className="bg-zinc-900/80">{children}</thead>;
+    return <thead className="bg-theme-bg/90">{children}</thead>;
   },
   tbody({ children }) {
     return <tbody className="divide-y divide-zinc-800/50">{children}</tbody>;
@@ -56,7 +56,7 @@ const renderers = {
   },
   th({ children }) {
     return (
-      <th className="px-4 py-3 text-left text-[11px] font-semibold text-zinc-500 uppercase tracking-wider whitespace-nowrap font-data">
+      <th className="px-4 py-3 text-left text-[11px] font-semibold text-theme-accent uppercase tracking-wider whitespace-nowrap font-data">
         {children}
       </th>
     );
@@ -71,7 +71,7 @@ const renderers = {
   h1({ children }) {
     const id = generateIdFromChildren(children);
     return (
-      <h1 id={id} className="text-2xl font-bold text-white mt-10 mb-5 pb-4 border-b border-zinc-800/60 scroll-mt-24">
+      <h1 id={id} className="text-2xl font-bold text-theme-accent mt-10 mb-5 pb-4 border-b border-zinc-800/60 scroll-mt-24">
         {children}
       </h1>
     );
@@ -79,8 +79,8 @@ const renderers = {
   h2({ children }) {
     const id = generateIdFromChildren(children);
     return (
-      <h2 id={id} className="text-lg font-semibold text-white mt-10 mb-3 flex items-center gap-3 scroll-mt-24">
-        <span className="inline-block w-1 h-5 rounded-full bg-rose-500 flex-shrink-0 shadow-[0_0_8px_rgba(244,63,94,0.4)]" />
+      <h2 id={id} className="text-lg font-semibold text-theme-accent mt-10 mb-3 flex items-center gap-3 scroll-mt-24">
+        <span className="inline-block w-1 h-5 rounded-full bg-theme-accent flex-shrink-0 shadow-[0_0_8px_rgba(248,231,201,0.5)]" />
         {children}
       </h2>
     );
@@ -88,7 +88,7 @@ const renderers = {
   h3({ children }) {
     const id = generateIdFromChildren(children);
     return (
-      <h3 id={id} className="text-sm font-semibold text-rose-300 mt-6 mb-2 uppercase tracking-wide scroll-mt-24">
+      <h3 id={id} className="text-sm font-semibold text-theme-accent mt-6 mb-2 uppercase tracking-wide scroll-mt-24">
         {children}
       </h3>
     );
@@ -111,12 +111,12 @@ const renderers = {
     return <ul className="space-y-1.5 my-3 ml-1">{children}</ul>;
   },
   ol({ children }) {
-    return <ol className="space-y-1.5 my-3 ml-4 list-decimal marker:text-zinc-600">{children}</ol>;
+    return <ol className="space-y-1.5 my-3 ml-4 list-decimal marker:text-zinc-500">{children}</ol>;
   },
   li({ children }) {
     return (
       <li className="text-zinc-300 text-[14.5px] leading-relaxed flex items-start gap-2.5">
-        <span className="mt-[9px] w-1.5 h-1.5 rounded-full bg-rose-500/60 flex-shrink-0" />
+        <span className="mt-[9px] w-1.5 h-1.5 rounded-full bg-theme-accent flex-shrink-0" />
         <span className="flex-1">{children}</span>
       </li>
     );
@@ -129,7 +129,7 @@ const renderers = {
 
   // Bold
   strong({ children }) {
-    return <strong className="text-white font-semibold">{children}</strong>;
+    return <strong className="text-theme-accent font-semibold">{children}</strong>;
   },
 
   // Emphasis
@@ -140,7 +140,7 @@ const renderers = {
   // Links
   a({ children, href }) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className="text-rose-400 hover:text-rose-300 underline decoration-rose-500/30 hover:decoration-rose-400/60 transition-colors">
+      <a href={href} target="_blank" rel="noopener noreferrer" className="text-theme-accent hover:underline decoration-theme-accent/40 transition-colors">
         {children}
       </a>
     );
@@ -149,8 +149,8 @@ const renderers = {
   // Blockquotes — used for KEY TAKEAWAY / callout boxes
   blockquote({ children }) {
     return (
-      <div className="my-8 border-l-[3px] border-rose-500 bg-rose-500/[0.06] rounded-r-xl px-6 py-5 break-inside-avoid">
-        <div className="text-rose-100 [&_p]:text-rose-100 [&_p]:!mb-0 [&_strong]:text-white [&_strong]:tracking-wide text-[14.5px]">
+      <div className="my-8 border-l-[3px] border-theme-accent bg-theme-bg/80 border border-theme-accent/20 rounded-r-xl px-6 py-5 break-inside-avoid shadow-lg">
+        <div className="text-theme-accent [&_p]:text-theme-accent [&_p]:!mb-0 [&_strong]:text-theme-accent [&_strong]:tracking-wide text-[14.5px]">
           {children}
         </div>
       </div>
@@ -242,10 +242,10 @@ export default function ReportViewer({ markdown, ticker }) {
       {ticker && (
         <div className="px-5 md:px-8 lg:px-16 xl:px-24 pt-6 pb-2 max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-2">
-            <span className="px-2.5 py-1 rounded-md bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-data font-bold tracking-wider">
+            <span className="px-2.5 py-1 rounded-md bg-theme-accent/15 border border-theme-accent/30 text-theme-accent text-xs font-data font-bold tracking-wider">
               {ticker}
             </span>
-            <span className="text-zinc-600 text-xs">AI Analysis Report</span>
+            <span className="text-zinc-400 text-xs">AI Analysis Report</span>
           </div>
         </div>
       )}
@@ -262,7 +262,7 @@ export default function ReportViewer({ markdown, ticker }) {
         {headings.length > 0 && (
           <div className="hidden md:block w-48 lg:w-64 flex-shrink-0 ml-auto pl-4 lg:pl-8">
             <div className="sticky top-8 pt-4 pb-8 max-h-[calc(100vh-4rem)] overflow-y-auto no-scrollbar">
-              <h4 className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest mb-5">Table of Contents</h4>
+              <h4 className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-5">Table of Contents</h4>
               <nav className="space-y-3 flex flex-col relative before:absolute before:inset-y-0 before:left-0 before:w-px before:bg-zinc-800/60">
                 {headings.map((heading, i) => (
                   <a
@@ -280,8 +280,8 @@ export default function ReportViewer({ markdown, ticker }) {
                       text-[13px] leading-snug transition-all pl-4 relative border-l-2 py-0.5
                       ${heading.level === 1 ? 'font-semibold' : heading.level === 2 ? 'ml-0' : 'ml-3'}
                       ${activeId === heading.id 
-                        ? 'text-rose-400 border-rose-500' 
-                        : 'text-zinc-400 hover:text-zinc-200 border-transparent hover:border-zinc-700'
+                        ? 'text-theme-accent border-theme-accent font-bold' 
+                        : 'text-zinc-400 hover:text-theme-accent border-transparent hover:border-zinc-700'
                       }
                     `}
                   >

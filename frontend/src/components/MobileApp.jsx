@@ -92,7 +92,7 @@ export default function MobileApp({
           <button
             onClick={() => setActiveView('report')}
             className={`px-5 py-1.5 rounded-full text-[13px] font-bold transition-all duration-200 ${
-              activeView === 'report' ? 'bg-rose-600 text-white shadow-md' : 'text-zinc-500'
+              activeView === 'report' ? 'bg-theme-accent text-theme-bg shadow-md' : 'text-zinc-400'
             }`}
           >
             Report
@@ -100,7 +100,7 @@ export default function MobileApp({
           <button
             onClick={() => setActiveView('raw')}
             className={`px-5 py-1.5 rounded-full text-[13px] font-bold transition-all duration-200 ${
-              activeView === 'raw' ? 'bg-rose-600 text-white shadow-md' : 'text-zinc-500'
+              activeView === 'raw' ? 'bg-theme-accent text-theme-bg shadow-md' : 'text-zinc-400'
             }`}
           >
             Raw Data
@@ -157,10 +157,10 @@ export default function MobileApp({
       {reportMarkdown && !isChatOpen && (
         <button
           onClick={() => setIsChatOpen(true)}
-          className="fixed right-6 w-14 h-14 rounded-[1.25rem] bg-rose-600 shadow-[0_8px_32px_rgba(225,29,72,0.4)] text-white flex items-center justify-center z-40 active:scale-95 transition-transform"
+          className="fixed right-6 w-14 h-14 rounded-[1.25rem] bg-theme-accent shadow-[0_8px_32px_rgba(248,231,201,0.25)] text-theme-bg border border-theme-accent/40 flex items-center justify-center z-40 active:scale-95 transition-transform"
           style={{ bottom: 'calc(var(--bottom-nav-height) + 24px)' }}
         >
-          <MessageSquare className="w-6 h-6" />
+          <MessageSquare className="w-6 h-6 text-theme-bg" />
         </button>
       )}
 

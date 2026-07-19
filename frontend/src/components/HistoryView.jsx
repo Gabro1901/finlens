@@ -9,25 +9,25 @@ export default function HistoryView({ historyList, onSelectHistory, onDeleteHist
     <div className="h-full flex flex-col max-w-5xl mx-auto w-full px-5 md:px-8 lg:px-16 xl:px-24 pt-6 pb-6">
       {/* Header */}
       <div className="flex items-center gap-3 mb-8">
-        <div className="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center border border-rose-500/20">
-          <Clock className="w-5 h-5 text-rose-400" />
+        <div className="w-10 h-10 rounded-xl bg-theme-accent/15 flex items-center justify-center border border-theme-accent/30">
+          <Clock className="w-5 h-5 text-theme-accent" />
         </div>
         <div>
-          <h2 className="text-xl font-bold text-white">Analysis History</h2>
-          <p className="text-sm text-zinc-500">Your past financial reports and raw data</p>
+          <h2 className="text-xl font-bold text-theme-accent">Analysis History</h2>
+          <p className="text-sm text-zinc-400">Your past financial reports and raw data</p>
         </div>
       </div>
       
       {/* List */}
       <div className="flex-1 space-y-3">
         {isLoading ? (
-          <div className="text-zinc-500 text-sm text-center py-12 font-medium">Loading history...</div>
+          <div className="text-zinc-400 text-sm text-center py-12 font-medium">Loading history...</div>
         ) : historyList.length === 0 ? (
           <div className="text-center py-12 space-y-3">
             <div className="w-12 h-12 mx-auto rounded-xl bg-zinc-800/50 flex items-center justify-center border border-zinc-700/30">
-              <FileText className="w-5 h-5 text-zinc-600" />
+              <FileText className="w-5 h-5 text-zinc-500" />
             </div>
-            <p className="text-zinc-600 text-sm font-medium">No past analyses</p>
+            <p className="text-zinc-500 text-sm font-medium">No past analyses</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -37,19 +37,19 @@ export default function HistoryView({ historyList, onSelectHistory, onDeleteHist
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
                 key={item.id}
-                className="flex items-center p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-rose-500/30 hover:bg-zinc-800/60 transition-all duration-200 group shadow-lg"
+                className="flex items-center p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-theme-accent/30 hover:bg-theme-bg/30 transition-all duration-200 group shadow-lg"
               >
                 <button
                   onClick={() => onSelectHistory(item.id)}
                   className="flex-1 flex items-center justify-between text-left"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-rose-500/10 flex items-center justify-center shrink-0 border border-rose-500/20 group-hover:bg-rose-500/20 transition-colors">
-                      <span className="text-sm font-data font-bold text-rose-400">{item.ticker?.substring(0, 3)}</span>
+                    <div className="w-12 h-12 rounded-xl bg-theme-bg flex items-center justify-center shrink-0 border border-theme-accent/30 group-hover:bg-theme-accent group-hover:text-theme-bg transition-colors">
+                      <span className="text-sm font-data font-bold text-theme-accent group-hover:text-theme-bg">{item.ticker?.substring(0, 3)}</span>
                     </div>
                     <div>
-                      <div className="font-bold text-zinc-200 text-base font-data">{item.ticker}</div>
-                      <div className="text-xs text-zinc-500 font-medium mt-1">
+                      <div className="font-bold text-theme-accent text-base font-data">{item.ticker}</div>
+                      <div className="text-xs text-zinc-400 font-medium mt-1">
                         {new Date(item.date).toLocaleDateString()} · {new Date(item.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                       </div>
                     </div>

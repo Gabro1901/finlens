@@ -112,6 +112,8 @@ Balance-sheet optionality: Does the company have latent capacity (underlevered b
 
 Red flag that would break the thesis: What single data point, if it appeared, would invalidate the entire long or short case for this company relative to peers?
 
+Analyst Consensus vs. Reality: Compare the provided target prices and recent analyst ratings (upgrades/downgrades) against your findings. Is the street consensus missing something, or are they spot on?
+
 5. SYNTHESIS: THE ONE-PAGER NO ONE ELSE HAS
 Deliver a concise, integrative conclusion:
 

@@ -118,6 +118,13 @@ class MarketCollector:
             except Exception: pass
             
             try:
+                ud = t.upgrades_downgrades
+                if ud is not None and not ud.empty:
+                    ud_subset = ud[['Firm', 'ToGrade', 'FromGrade', 'Action']].head(15).reset_index()
+                    data["upgrades_downgrades"] = _sanitize_value(ud_subset.to_dict(orient='records'))
+            except Exception: pass
+            
+            try:
                 eps_hist = t.earnings_history
                 if eps_hist is not None and not eps_hist.empty:
                     data["earnings_history"] = _sanitize_value(eps_hist.to_dict(orient='records'))

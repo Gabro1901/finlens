@@ -123,12 +123,12 @@ export default function ChatPanel({ isOpen, onClose, ticker, reportMarkdown, raw
             {/* Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-800/60">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center border border-rose-500/20">
-                  <Sparkles className="w-4 h-4 text-rose-400" />
+                <div className="w-8 h-8 rounded-lg bg-theme-accent/15 flex items-center justify-center border border-theme-accent/30">
+                  <Sparkles className="w-4 h-4 text-theme-accent" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-white">AI Analyst</h3>
-                  <p className="text-[10px] text-zinc-500 font-medium">{ticker ? `Discussing ${ticker}` : 'Chat'}</p>
+                  <h3 className="text-sm font-semibold text-theme-accent">AI Analyst</h3>
+                  <p className="text-[10px] text-zinc-400 font-medium">{ticker ? `Discussing ${ticker}` : 'Chat'}</p>
                 </div>
               </div>
               
@@ -136,7 +136,7 @@ export default function ChatPanel({ isOpen, onClose, ticker, reportMarkdown, raw
                 <select 
                   value={contextSource} 
                   onChange={(e) => setContextSource(e.target.value)}
-                  className="bg-zinc-900 border border-zinc-800 text-xs text-zinc-400 rounded-lg px-2 py-1 focus:outline-none focus:border-rose-500/50"
+                  className="bg-zinc-900 border border-zinc-800 text-xs text-theme-accent rounded-lg px-2 py-1 focus:outline-none focus:border-theme-accent/50"
                   title="Context Source"
                 >
                   <option value="report">Report</option>
@@ -147,7 +147,7 @@ export default function ChatPanel({ isOpen, onClose, ticker, reportMarkdown, raw
                 {!isMobile && (
                   <button
                     onClick={onClose}
-                    className="w-8 h-8 rounded-lg flex items-center justify-center text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
+                    className="w-8 h-8 rounded-lg flex items-center justify-center text-zinc-400 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -166,17 +166,17 @@ export default function ChatPanel({ isOpen, onClose, ticker, reportMarkdown, raw
                   className={`flex gap-2.5 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   {msg.role === 'assistant' && (
-                    <div className="w-7 h-7 rounded-lg bg-rose-500/10 flex items-center justify-center shrink-0 border border-rose-500/20 mt-0.5">
-                      <Bot className="w-3.5 h-3.5 text-rose-400" />
+                    <div className="w-7 h-7 rounded-lg bg-theme-accent/15 flex items-center justify-center shrink-0 border border-theme-accent/30 mt-0.5">
+                      <Bot className="w-3.5 h-3.5 text-theme-accent" />
                     </div>
                   )}
                   
                   {msg.role === 'user' ? (
-                      <div className="max-w-[85%] rounded-2xl px-4 py-3 bg-rose-600/80 text-white rounded-tr-md">
+                      <div className="max-w-[85%] rounded-2xl px-4 py-3 bg-theme-accent text-theme-bg font-medium rounded-tr-md shadow-md">
                         <p className="text-sm leading-relaxed">{msg.content}</p>
                       </div>
                     ) : (
-                      <div className="text-sm space-y-2 [&_strong]:text-white [&_strong]:font-semibold [&_p]:text-zinc-300 [&_p]:leading-relaxed [&_ul]:space-y-1 [&_li]:text-zinc-300 [&_table]:w-full [&_table]:text-xs [&_th]:text-zinc-400 [&_th]:font-semibold [&_th]:px-2 [&_th]:py-1.5 [&_th]:border-b [&_th]:border-zinc-700 [&_td]:px-2 [&_td]:py-1.5 [&_td]:border-b [&_td]:border-zinc-800 [&_tr:hover]:bg-zinc-800/30">
+                      <div className="text-sm space-y-2 [&_strong]:text-theme-accent [&_strong]:font-semibold [&_p]:text-zinc-200 [&_p]:leading-relaxed [&_ul]:space-y-1 [&_li]:text-zinc-200 [&_table]:w-full [&_table]:text-xs [&_th]:text-theme-accent [&_th]:font-semibold [&_th]:px-2 [&_th]:py-1.5 [&_th]:border-b [&_th]:border-zinc-700 [&_td]:px-2 [&_td]:py-1.5 [&_td]:border-b [&_td]:border-zinc-800 [&_tr:hover]:bg-zinc-800/30">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
                       </div>
                     )}
@@ -195,11 +195,11 @@ export default function ChatPanel({ isOpen, onClose, ticker, reportMarkdown, raw
                   animate={{ opacity: 1, y: 0 }}
                   className="flex gap-2.5 justify-start"
                 >
-                  <div className="w-7 h-7 rounded-lg bg-rose-500/10 flex items-center justify-center shrink-0 border border-rose-500/20">
-                    <Bot className="w-3.5 h-3.5 text-rose-400" />
+                  <div className="w-7 h-7 rounded-lg bg-theme-accent/15 flex items-center justify-center shrink-0 border border-theme-accent/30">
+                    <Bot className="w-3.5 h-3.5 text-theme-accent" />
                   </div>
                   <div className="bg-zinc-800/60 border border-zinc-700/40 text-zinc-400 rounded-2xl rounded-tl-md px-4 py-3 flex items-center gap-2">
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-theme-accent" />
                     <span className="text-sm">Analyzing...</span>
                   </div>
                 </motion.div>
@@ -214,17 +214,17 @@ export default function ChatPanel({ isOpen, onClose, ticker, reportMarkdown, raw
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask a follow-up question..."
-                className="flex-1 bg-zinc-900/60 border border-zinc-800 rounded-xl px-4 py-2.5 text-[16px] text-white placeholder-zinc-600 focus:outline-none focus:border-rose-500/50 transition-colors glow-focus"
+                className="flex-1 bg-zinc-900/60 border border-zinc-800 rounded-xl px-4 py-2.5 text-[16px] text-theme-accent placeholder-zinc-500 focus:outline-none focus:border-theme-accent/50 transition-colors glow-focus font-medium"
                 disabled={isSending || !reportMarkdown}
                 id="chat-input"
               />
               <button
                 type="submit"
                 disabled={isSending || !input.trim()}
-                className="bg-rose-600 hover:bg-rose-500 disabled:bg-zinc-800 disabled:text-zinc-600 text-white rounded-xl px-4 py-2.5 flex items-center justify-center transition-all duration-200 shadow-lg shadow-rose-500/15"
+                className="bg-theme-accent hover:bg-[#e5d2b0] disabled:bg-zinc-800 disabled:text-zinc-600 text-theme-bg font-bold rounded-xl px-4 py-2.5 flex items-center justify-center transition-all duration-200 shadow-lg shadow-theme-accent/10"
                 id="chat-send-button"
               >
-                <Send className="w-4 h-4" />
+                <Send className="w-4 h-4 text-theme-bg" />
               </button>
             </form>
           </motion.div>

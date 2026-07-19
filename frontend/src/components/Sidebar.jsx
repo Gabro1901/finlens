@@ -20,8 +20,8 @@ export default function Sidebar({
     <aside className="sidebar-bg fixed left-0 top-0 bottom-0 z-50 flex flex-col items-center py-6" style={{ width: 'var(--sidebar-width)' }}>
       {/* Logo */}
       <div className="mb-10 flex items-center justify-center">
-        <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-rose-500 to-red-600 flex items-center justify-center shadow-lg shadow-rose-500/30">
-          <Hexagon className="w-6 h-6 text-white" strokeWidth={2.5} />
+        <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-theme-accent to-[#e5d2b0] flex items-center justify-center shadow-lg shadow-theme-accent/20">
+          <Hexagon className="w-6 h-6 text-theme-bg" strokeWidth={2.5} />
         </div>
       </div>
 
@@ -37,8 +37,8 @@ export default function Sidebar({
               {isActive && (
                 <motion.div
                   layoutId="sidebar-indicator"
-                  className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 rounded-r-full bg-rose-400"
-                  style={{ boxShadow: '0 0 16px rgba(244, 63, 94, 0.5)' }}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 rounded-r-full bg-theme-accent"
+                  style={{ boxShadow: '0 0 16px rgba(248, 231, 201, 0.6)' }}
                   transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                 />
               )}
@@ -51,7 +51,7 @@ export default function Sidebar({
                   group relative w-12 h-12 rounded-2xl flex items-center justify-center
                   transition-all duration-200 ease-out
                   ${isActive 
-                    ? 'text-rose-400 bg-rose-500/10 shadow-[0_0_15px_rgba(244,63,94,0.1)]' 
+                    ? 'text-theme-accent bg-theme-accent/15 shadow-[0_0_15px_rgba(248,231,201,0.15)] border border-theme-accent/30' 
                     : isDisabled 
                       ? 'text-zinc-700 cursor-not-allowed' 
                       : 'text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800/50'
