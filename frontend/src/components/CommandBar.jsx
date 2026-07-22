@@ -5,8 +5,10 @@ import { useDebounce } from '../hooks/useDebounce';
 
 export default function CommandBar({ 
   onStartAnalysis, 
+  onStopAnalysis,
   isAnalyzing, 
   currentStage,
+  currentMessage,
   reportMarkdown, 
   ticker: activeTicker,
   activeView,
@@ -189,30 +191,34 @@ export default function CommandBar({
             )}
           </AnimatePresence>
         </div>
-        <motion.button
-          whileHover={{ scale: 1.01 }}
-          whileTap={{ scale: 0.98 }}
-          type="submit"
-          disabled={isAnalyzing || !ticker.trim()}
-          className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold rounded-lg text-theme-bg bg-theme-accent hover:bg-[#e5d2b0] disabled:bg-zinc-800 disabled:text-zinc-500 disabled:opacity-100 disabled:cursor-not-allowed transition-all duration-200 whitespace-nowrap shadow-md shadow-theme-accent/10"
-          id="analyze-button"
-        >
-          <Zap className="w-3.5 h-3.5 text-theme-bg" />
-          {isAnalyzing ? 'Analyzing...' : 'Analyze'}
-        </motion.button>
+        {isAnalyzing ? (
+          <motion.button
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            type="button"
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onStopAnalysis(); }}
+            className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold rounded-lg text-red-200 bg-red-950/80 border border-red-900 hover:bg-red-900 transition-all duration-200 whitespace-nowrap shadow-md"
+            id="stop-button"
+          >
+            <div className="w-3 h-3 rounded-sm bg-red-400" />
+            Stop
+          </motion.button>
+        ) : (
+          <motion.button
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            type="submit"
+            disabled={!ticker.trim()}
+            className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold rounded-lg text-theme-bg bg-theme-accent hover:bg-[#e5d2b0] disabled:bg-zinc-800 disabled:text-zinc-500 disabled:opacity-100 disabled:cursor-not-allowed transition-all duration-200 whitespace-nowrap shadow-md shadow-theme-accent/10"
+            id="analyze-button"
+          >
+            <Zap className="w-3.5 h-3.5 text-theme-bg" />
+            Analyze
+          </motion.button>
+        )}
       </form>
 
-      {/* Analysis status pill */}
-      {isAnalyzing && currentStage && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-theme-accent/15 border border-theme-accent/30"
-        >
-          <span className="w-1.5 h-1.5 rounded-full bg-theme-accent animate-pulse" />
-          <span className="text-xs text-theme-accent font-medium capitalize">{currentStage}</span>
-        </motion.div>
-      )}
+
 
       {/* Spacer */}
       <div className="flex-1" />

@@ -13,6 +13,7 @@ export default function MobileApp({
   isAnalyzing,
   reportMarkdown,
   currentStage,
+  currentMessage,
   targetTicker,
   rawContextData,
   activeView,
@@ -26,7 +27,10 @@ export default function MobileApp({
   isHistoryLoading,
   apiKeys,
   setApiKeys,
+  language,
+  setLanguage,
   handleStartAnalysis,
+  handleStopAnalysis,
   handleClearAnalysis,
   handleSelectHistory,
   handleDeleteHistory
@@ -87,8 +91,8 @@ export default function MobileApp({
       </main>
 
       {/* ── View Toggle Pill (Floating at top when report is active) ── */}
-      {reportMarkdown && mainContentView !== 'history' && activeView !== 'home' && rawContextData && (
-        <div className="fixed top-3 left-1/2 -translate-x-1/2 z-50 bg-zinc-900/90 backdrop-blur-xl rounded-full p-1 border border-zinc-800 shadow-2xl flex">
+      {(reportMarkdown || isAnalyzing) && mainContentView !== 'history' && activeView !== 'home' && (
+        <div className="fixed top-3 left-1/2 -translate-x-1/2 z-50 bg-zinc-900/90 backdrop-blur-xl rounded-full p-1 border border-zinc-800 shadow-2xl flex items-center">
           <button
             onClick={() => setActiveView('report')}
             className={`px-5 py-1.5 rounded-full text-[13px] font-bold transition-all duration-200 ${
@@ -97,14 +101,24 @@ export default function MobileApp({
           >
             Report
           </button>
-          <button
-            onClick={() => setActiveView('raw')}
-            className={`px-5 py-1.5 rounded-full text-[13px] font-bold transition-all duration-200 ${
-              activeView === 'raw' ? 'bg-theme-accent text-theme-bg shadow-md' : 'text-zinc-400'
-            }`}
-          >
-            Raw Data
-          </button>
+          {rawContextData && (
+            <button
+              onClick={() => setActiveView('raw')}
+              className={`px-5 py-1.5 rounded-full text-[13px] font-bold transition-all duration-200 ${
+                activeView === 'raw' ? 'bg-theme-accent text-theme-bg shadow-md' : 'text-zinc-400'
+              }`}
+            >
+              Raw Data
+            </button>
+          )}
+          {isAnalyzing && (
+            <button
+              onClick={(e) => { e.preventDefault(); handleStopAnalysis(); }}
+              className="px-4 py-1.5 ml-1 rounded-full text-[13px] font-bold bg-red-950/60 text-red-400 border border-red-900/50"
+            >
+              Stop
+            </button>
+          )}
         </div>
       )}
 
@@ -165,8 +179,8 @@ export default function MobileApp({
       )}
 
       {/* Overlay & Modals */}
-      <AnalysisOverlay currentStage={isAnalyzing ? currentStage : null} ticker={targetTicker} />
-      <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} apiKeys={apiKeys} setApiKeys={setApiKeys} />
+      <AnalysisOverlay currentStage={isAnalyzing ? currentStage : null} currentMessage={currentMessage} ticker={targetTicker} reportMarkdown={reportMarkdown} />
+      <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} apiKeys={apiKeys} setApiKeys={setApiKeys} language={language} setLanguage={setLanguage} />
     </div>
   );
 }

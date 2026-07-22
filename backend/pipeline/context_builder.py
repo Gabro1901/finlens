@@ -71,6 +71,8 @@ def build_context(bundled_data: dict) -> str:
         lines.append(f"Error fetching market data: {market['error']}\n")
     else:
         info = market.get("info", {})
+        desc = info.get('longBusinessSummary', info.get('description', 'N/A'))
+        lines.append(f"- Company Description: {desc}")
         lines.append(f"- Sector: {info.get('sector', 'N/A')}")
         lines.append(f"- Industry: {info.get('industry', 'N/A')}")
         lines.append(f"- Market Cap: {info.get('marketCap', 'N/A')}")
@@ -86,7 +88,18 @@ def build_context(bundled_data: dict) -> str:
         lines.append(f"- Target Low Price: {info.get('targetLowPrice', 'N/A')}")
         lines.append(f"- Average Analyst Rating: {info.get('averageAnalystRating', 'N/A')}")
         lines.append(f"- Number of Analysts: {info.get('numberOfAnalystOpinions', 'N/A')}")
-        lines.append(f"- Recommendation Key: {info.get('recommendationKey', 'N/A')}\n")
+        lines.append(f"- Recommendation Key: {info.get('recommendationKey', 'N/A')}")
+        lines.append(f"- Beta: {info.get('beta', 'N/A')}")
+        lines.append(f"- 52-Week High: {info.get('fiftyTwoWeekHigh', 'N/A')}")
+        lines.append(f"- 52-Week Low: {info.get('fiftyTwoWeekLow', 'N/A')}")
+        lines.append(f"- 52-Week Change: {info.get('52WeekChange', 'N/A')}\n")
+        
+        hist = market.get("history", {})
+        if hist:
+            lines.append("### 5-Year Stock Price History (Close Prices)")
+            lines.append(json.dumps(hist))
+            lines.append("\n")
+
         
     # 2. Financial Statements (Income, Balance, Cashflow)
     lines.append("## Financial Statements (Multi-Year Context)")
@@ -119,6 +132,9 @@ def build_context(bundled_data: dict) -> str:
     lines.append(f"- Net Debt: {normalized.get('net_debt', 'N/A')}")
     lines.append(f"- EV / Adjusted EBITDA: {normalized.get('ev_to_ebitda', 'N/A')}")
     lines.append(f"- FCF Conversion Ratio: {normalized.get('fcf_conversion', 'N/A')}")
+    lines.append(f"- ROIC Proxy: {normalized.get('roic_proxy', 'N/A')}")
+    lines.append(f"- Accruals Ratio: {normalized.get('accruals_ratio', 'N/A')}")
+    lines.append(f"- CapEx Intensity: {normalized.get('capex_intensity', 'N/A')}")
     lines.append(f"- Accounting Adjustments: {normalized.get('accounting_notes', 'None')}")
     
     red_flags = normalized.get('red_flags', [])
@@ -181,6 +197,20 @@ def build_context(bundled_data: dict) -> str:
                     date_str = date_str.split("T")[0]
                 lines.append(f"| {date_str} | {item.get('Firm', '')} | {item.get('Action', '')} | {item.get('ToGrade', '')} | {item.get('FromGrade', '')} |")
             lines.append("\n")
+
+        # Consensus Estimates
+        e_est = market.get("earnings_estimate")
+        r_est = market.get("revenue_estimate")
+        if e_est or r_est:
+            lines.append("### Analyst Consensus & Estimates")
+            if e_est:
+                lines.append("#### Earnings Estimates")
+                lines.append(json.dumps(e_est, indent=2))
+                lines.append("\n")
+            if r_est:
+                lines.append("#### Revenue Estimates")
+                lines.append(json.dumps(r_est, indent=2))
+                lines.append("\n")
 
     # 6. Macro & Geo Data
     lines.append("## Macroeconomic Context (FRED & World Bank)")

@@ -1,8 +1,8 @@
-import { X, ExternalLink, Shield, Palette } from 'lucide-react';
+import { X, ExternalLink, Shield, Palette, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme, THEME_PRESETS } from '../contexts/ThemeContext';
 
-export default function SettingsModal({ isOpen, onClose, apiKeys, setApiKeys }) {
+export default function SettingsModal({ isOpen, onClose, apiKeys, setApiKeys, language = 'en', setLanguage }) {
   const { theme, setTheme } = useTheme();
 
   const handleChange = (e) => {
@@ -131,6 +131,40 @@ export default function SettingsModal({ isOpen, onClose, apiKeys, setApiKeys }) 
                         <code className="text-xs text-zinc-400 font-data">{theme.accent.toUpperCase()}</code>
                       </div>
                     </div>
+                  </div>
+                </div>
+
+                {/* Language Section */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Globe className="w-3.5 h-3.5 text-theme-accent" />
+                    <span className="text-[10px] font-bold text-theme-accent uppercase tracking-widest">Report Language</span>
+                    <div className="flex-1 h-px bg-zinc-800" />
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setLanguage && setLanguage('en')}
+                      className={`flex items-center justify-center gap-2 p-3 rounded-xl border transition-all text-sm font-medium ${
+                        language === 'en'
+                          ? 'border-theme-accent bg-theme-accent/10 text-theme-accent shadow-md shadow-theme-accent/10'
+                          : 'border-zinc-800 bg-zinc-950/50 text-zinc-400 hover:bg-zinc-900'
+                      }`}
+                    >
+                      <span>🇺🇸 English</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setLanguage && setLanguage('it')}
+                      className={`flex items-center justify-center gap-2 p-3 rounded-xl border transition-all text-sm font-medium ${
+                        language === 'it'
+                          ? 'border-theme-accent bg-theme-accent/10 text-theme-accent shadow-md shadow-theme-accent/10'
+                          : 'border-zinc-800 bg-zinc-950/50 text-zinc-400 hover:bg-zinc-900'
+                      }`}
+                    >
+                      <span>🇮🇹 Italiano</span>
+                    </button>
                   </div>
                 </div>
 

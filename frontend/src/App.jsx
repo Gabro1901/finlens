@@ -17,10 +17,12 @@ function App() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [reportMarkdown, setReportMarkdown] = useState('');
   const [currentStage, setCurrentStage] = useState('');
+  const [currentMessage, setCurrentMessage] = useState('');
   const [targetTicker, setTargetTicker] = useState('');
   const [rawContextData, setRawContextData] = useState(null);
   const rawContextDataRef = useRef(null);
   const wakeLockRef = useRef(null);
+  const abortControllerRef = useRef(null);
 
   // ── Wake Lock helpers ──
   const requestWakeLock = async () => {
@@ -63,6 +65,14 @@ function App() {
   useEffect(() => {
     localStorage.setItem('finlens_api_keys', JSON.stringify(apiKeys));
   }, [apiKeys]);
+
+  const [language, setLanguage] = useState(() => {
+    return localStorage.getItem('finlens_language') || 'en';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('finlens_language', language);
+  }, [language]);
 
   // ── History management (preserved exactly) ──
   const fetchHistoryList = async () => {
@@ -135,11 +145,18 @@ function App() {
 
   // ── SSE analysis pipeline (preserved exactly) ──
   const handleStartAnalysis = async (ticker) => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const abortController = new AbortController();
+    abortControllerRef.current = abortController;
+
     setIsAnalyzing(true);
     setReportMarkdown('');
     setRawContextData(null);
     rawContextDataRef.current = null;
     setCurrentStage('init');
+    setCurrentMessage('');
     setTargetTicker(ticker);
     setActiveView('report');
     setIsChatOpen(false);
@@ -148,6 +165,7 @@ function App() {
     try {
       const response = await fetch(`/api/analysis/`, {
         method: 'POST',
+        signal: abortController.signal,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           ticker, 
@@ -155,7 +173,8 @@ function App() {
           llm_api_key: apiKeys.openai,
           fred_api_key: apiKeys.fred,
           congress_api_key: apiKeys.congress,
-          sec_email: apiKeys.sec_email
+          sec_email: apiKeys.sec_email,
+          language
         }),
       });
 
@@ -189,6 +208,7 @@ function App() {
               const data = JSON.parse(dataStr);
               if (currentEvent === 'status') {
                 setCurrentStage(data.stage);
+                setCurrentMessage(data.message || '');
               } else if (currentEvent === 'raw_data') {
                 setRawContextData(data);
                 rawContextDataRef.current = data;
@@ -213,11 +233,34 @@ function App() {
         }
       }
     } catch (err) {
+      if (err.name === 'AbortError') {
+        console.log('Analysis aborted');
+        setCurrentStage('cancelled');
+        setIsAnalyzing(false);
+        await releaseWakeLock();
+        return;
+      }
       console.error(err);
       setCurrentStage('error');
       setIsAnalyzing(false);
       await releaseWakeLock();
     }
+  };
+
+  const handleStopAnalysis = async () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+    
+    setReportMarkdown((prev) => {
+      if (!prev) return "# Analysis Cancelled\n\nGeneration was stopped before completion.";
+      return prev + "\n\n> **Analysis Cancelled**";
+    });
+
+    setIsAnalyzing(false);
+    setCurrentStage('cancelled');
+    await releaseWakeLock();
   };
 
   // ── Navigation handler ──
@@ -232,6 +275,7 @@ function App() {
     isAnalyzing,
     reportMarkdown,
     currentStage,
+    currentMessage,
     targetTicker,
     rawContextData,
     activeView,
@@ -246,7 +290,10 @@ function App() {
     isHistoryLoading,
     apiKeys,
     setApiKeys,
+    language,
+    setLanguage,
     handleStartAnalysis,
+    handleStopAnalysis,
     handleClearAnalysis,
     handleSelectHistory,
     handleDeleteHistory

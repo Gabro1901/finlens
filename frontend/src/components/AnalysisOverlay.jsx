@@ -6,12 +6,13 @@ const STAGES = [
   { id: 'collection', label: 'Data Collection', sublabel: 'Fetching market data & filings' },
   { id: 'normalization', label: 'Normalizing', sublabel: 'Accounting adjustments' },
   { id: 'context', label: 'Context Assembly', sublabel: 'Building intelligence context' },
-  { id: 'generation', label: 'AI Generation', sublabel: 'Writing analysis report' },
+  { id: 'generation', label: 'Multi-Agent Analysis', sublabel: 'Running Optimistic and Pessimistic AI in parallel' },
+  { id: 'synthesis', label: 'Synthesis', sublabel: 'Adjudicating report' },
   { id: 'complete', label: 'Complete', sublabel: 'Analysis ready' },
 ];
 
-export default function AnalysisOverlay({ currentStage, ticker }) {
-  if (!currentStage || currentStage === 'complete' || currentStage === 'error') return null;
+export default function AnalysisOverlay({ currentStage, currentMessage, ticker, reportMarkdown }) {
+  if (!currentStage || currentStage === 'complete' || currentStage === 'error' || currentStage === 'cancelled' || (currentStage === 'synthesis' && reportMarkdown && reportMarkdown.length > 0)) return null;
 
   const currentIndex = STAGES.findIndex(s => s.id === currentStage);
   const currentStageData = STAGES[currentIndex] || STAGES[0];
@@ -59,7 +60,7 @@ export default function AnalysisOverlay({ currentStage, ticker }) {
               <motion.circle
                 cx="56" cy="56" r="48"
                 fill="none"
-                stroke="url(#progressGradient)"
+                stroke="url(#progress-gradient)"
                 strokeWidth="4"
                 strokeLinecap="round"
                 strokeDasharray={2 * Math.PI * 48}
@@ -102,9 +103,9 @@ export default function AnalysisOverlay({ currentStage, ticker }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.1 }}
-              className="text-sm text-zinc-400"
+              className="text-sm text-zinc-400 max-w-[280px] mx-auto leading-relaxed"
             >
-              {currentStageData.sublabel}
+              {currentMessage || currentStageData.sublabel}
             </motion.p>
           </div>
 

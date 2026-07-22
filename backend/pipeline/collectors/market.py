@@ -88,9 +88,9 @@ class MarketCollector:
                 data["quarterly_cashflow"] = _df_to_dict(t.quarterly_cashflow)
             except Exception: pass
             
-            # Historical Prices (5 years, weekly)
+            # Historical Prices (5 years, monthly)
             try:
-                hist = t.history(period="5y", interval="1wk")
+                hist = t.history(period="5y", interval="1mo")
                 if not hist.empty:
                     data["history"] = {str(k.date() if hasattr(k, 'date') else k): _sanitize_value(v) for k, v in hist['Close'].to_dict().items()}
             except Exception: pass
@@ -128,6 +128,18 @@ class MarketCollector:
                 eps_hist = t.earnings_history
                 if eps_hist is not None and not eps_hist.empty:
                     data["earnings_history"] = _sanitize_value(eps_hist.to_dict(orient='records'))
+            except Exception: pass
+            
+            try:
+                e_est = t.earnings_estimate
+                if e_est is not None and not e_est.empty:
+                    data["earnings_estimate"] = _sanitize_value(e_est.to_dict())
+            except Exception: pass
+
+            try:
+                r_est = t.revenue_estimate
+                if r_est is not None and not r_est.empty:
+                    data["revenue_estimate"] = _sanitize_value(r_est.to_dict())
             except Exception: pass
             
         except Exception as e:

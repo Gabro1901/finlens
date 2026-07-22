@@ -13,6 +13,7 @@ export default function DesktopApp({
   isAnalyzing,
   reportMarkdown,
   currentStage,
+  currentMessage,
   targetTicker,
   rawContextData,
   activeView,
@@ -26,7 +27,10 @@ export default function DesktopApp({
   isHistoryLoading,
   apiKeys,
   setApiKeys,
+  language,
+  setLanguage,
   handleStartAnalysis,
+  handleStopAnalysis,
   handleSelectHistory,
   handleDeleteHistory
 }) {
@@ -56,8 +60,10 @@ export default function DesktopApp({
           {/* ── Command Bar ── */}
           <CommandBar
             onStartAnalysis={handleStartAnalysis}
+            onStopAnalysis={handleStopAnalysis}
             isAnalyzing={isAnalyzing}
             currentStage={currentStage}
+            currentMessage={currentMessage}
             reportMarkdown={reportMarkdown}
             ticker={targetTicker}
             activeView={activeView}
@@ -143,7 +149,7 @@ export default function DesktopApp({
       </div>
 
       {/* ── Analysis overlay ── */}
-      <AnalysisOverlay currentStage={isAnalyzing ? currentStage : null} ticker={targetTicker} />
+      <AnalysisOverlay currentStage={isAnalyzing ? currentStage : null} currentMessage={currentMessage} ticker={targetTicker} reportMarkdown={reportMarkdown} />
 
       {/* ── Settings modal ── */}
       <SettingsModal 
@@ -151,6 +157,8 @@ export default function DesktopApp({
         onClose={() => setIsSettingsOpen(false)} 
         apiKeys={apiKeys} 
         setApiKeys={setApiKeys} 
+        language={language}
+        setLanguage={setLanguage}
       />
 
       {/* ── Chat FAB ── */}

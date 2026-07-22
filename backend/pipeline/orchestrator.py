@@ -10,7 +10,8 @@ from .collectors.regulatory import RegulatoryCollector
 from .collectors.peers import PeersCollector
 from .normalizer import normalize_accounting
 from .context_builder import build_context
-from ..ai.report_generator import generate_report
+from ..ai.report_generator import generate_report_full, generate_arbiter_report
+from ..ai.prompt_loader import load_prompt
 
 
 class SafeJSONEncoder(json.JSONEncoder):
@@ -53,7 +54,7 @@ def safe_json_dumps(obj):
     return json.dumps(obj, cls=SafeJSONEncoder, ensure_ascii=False)
 
 
-async def run_pipeline(ticker: str, llm_provider: str, llm_api_key: str, fred_api_key: str = "", congress_api_key: str = "", sec_email: str = ""):
+async def run_pipeline(ticker: str, llm_provider: str, llm_api_key: str, fred_api_key: str = "", congress_api_key: str = "", sec_email: str = "", language: str = "en"):
     """
     Orchestrates the entire financial analysis pipeline for a given ticker.
     Uses a two-phase collection process.
@@ -77,10 +78,20 @@ async def run_pipeline(ticker: str, llm_provider: str, llm_api_key: str, fred_ap
         context_markdown = bundled_data["context_prompt"]
         yield {"event": "raw_data", "data": safe_json_dumps(bundled_data)}
         
-        # Jump directly to report generation
-        yield {"event": "status", "data": safe_json_dumps({"stage": "generation", "message": "Generating institutional report..."})}
+        # Run parallel multi-agent generation
+        yield {"event": "status", "data": safe_json_dumps({"stage": "generation", "message": "Generating Optimistic and Pessimistic analyses in parallel..."})}
         try:
-            async for chunk in generate_report(ticker, context_markdown, llm_provider, llm_api_key):
+            optimistic_prompt = load_prompt("optimistic_prompt.md")
+            pessimistic_prompt = load_prompt("pessimistic_prompt.md")
+            
+            optimistic_task = asyncio.create_task(generate_report_full(ticker, context_markdown, llm_provider, llm_api_key, optimistic_prompt, language=language))
+            pessimistic_task = asyncio.create_task(generate_report_full(ticker, context_markdown, llm_provider, llm_api_key, pessimistic_prompt, language=language))
+            
+            optimistic_report, pessimistic_report = await asyncio.gather(optimistic_task, pessimistic_task)
+            
+            yield {"event": "status", "data": safe_json_dumps({"stage": "synthesis", "message": "Adjudicating and synthesizing final report..."})}
+            
+            async for chunk in generate_arbiter_report(ticker, context_markdown, optimistic_report, pessimistic_report, llm_provider, llm_api_key, language=language):
                 yield {"event": "report_chunk", "data": safe_json_dumps({"text": chunk})}
         except Exception as e:
             yield {"event": "report_chunk", "data": safe_json_dumps({"text": f"\n\n⚠️ **Generation Error**: {e}"})}
@@ -155,11 +166,21 @@ async def run_pipeline(ticker: str, llm_provider: str, llm_api_key: str, fred_ap
     collector_cache.set(ticker, bundled_data)
     yield {"event": "raw_data", "data": safe_json_dumps(bundled_data)}
     
-    # 6. Generate report via LLM
-    yield {"event": "status", "data": safe_json_dumps({"stage": "generation", "message": "Generating institutional report..."})}
+    # 6. Run parallel multi-agent generation
+    yield {"event": "status", "data": safe_json_dumps({"stage": "generation", "message": "Generating Optimistic and Pessimistic analyses in parallel..."})}
     
     try:
-        async for chunk in generate_report(ticker, context_markdown, llm_provider, llm_api_key):
+        optimistic_prompt = load_prompt("optimistic_prompt.md")
+        pessimistic_prompt = load_prompt("pessimistic_prompt.md")
+        
+        optimistic_task = asyncio.create_task(generate_report_full(ticker, context_markdown, llm_provider, llm_api_key, optimistic_prompt, language=language))
+        pessimistic_task = asyncio.create_task(generate_report_full(ticker, context_markdown, llm_provider, llm_api_key, pessimistic_prompt, language=language))
+        
+        optimistic_report, pessimistic_report = await asyncio.gather(optimistic_task, pessimistic_task)
+        
+        yield {"event": "status", "data": safe_json_dumps({"stage": "synthesis", "message": "Adjudicating and synthesizing final report..."})}
+        
+        async for chunk in generate_arbiter_report(ticker, context_markdown, optimistic_report, pessimistic_report, llm_provider, llm_api_key, language=language):
             yield {"event": "report_chunk", "data": safe_json_dumps({"text": chunk})}
     except Exception as e:
         yield {"event": "report_chunk", "data": safe_json_dumps({"text": f"\n\n⚠️ **Generation Error**: {e}"})}

@@ -3,8 +3,8 @@ import { generatePalette } from '../utils/colorUtils';
 
 // Default values swapped as requested
 export const DEFAULT_THEME = {
-  bg: '#f8e7c9', // Cream / Light
-  accent: '#064E3B', // Emerald / Dark
+  bg: '#064E3B', // Emerald / Dark
+  accent: '#f8e7c9', // Cream / Light
 };
 
 // Some preset themes

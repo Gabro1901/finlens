@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "tunnel": "npx untun@latest tunnel http://localhost:4173"
+    "tunnel": "npx untun@0.1.3 tunnel http://localhost:4173"
   },
   "dependencies": {
     "clsx": "^2.1.1",
